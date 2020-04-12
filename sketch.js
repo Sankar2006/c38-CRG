@@ -1,48 +1,33 @@
-var ball1;
-var database, position;
+
+var database;
+var gameState = 0;
+var playerCount;
+var form, player, game;
+var distance = 0;
+var allPlayers;
+var cars, car1, car2, car3, car4;
 
 function setup(){
     database = firebase.database();
-    createCanvas(500,500);
-    ball1 = createSprite(250,250,10,10);
-    ball1.shapeColor = "red";
-    var ball1position = database.ref('ball/position');
-    ball1position.on("value", readposition, showerror);
+    createCanvas(displayWidth-20, displayHeight-20);
+    game = new Game();
+    game.getState();
+    game.start();
 }
 
 function draw(){
     background("white");
-    if(keyDown(LEFT_ARROW)){
-        writeposition(-1,0);
+    if(playerCount === 4){
+        game.update(1);
     }
-    else if(keyDown(RIGHT_ARROW)){
-        writeposition(1,0);
+    if(gameState === 1){
+        clear();
+        game.play();
     }
-    else if(keyDown(UP_ARROW)){
-        writeposition(0,-1);
-    }
-    else if(keyDown(DOWN_ARROW)){
-        writeposition(0,+1);
-    }
-    drawSprites();
+    
 }
 
-function writeposition(x,y){
-database.ref('ball/position').set({
-    'x':position.x + x, 
-    'y':position.y + y
-})
-}
 
-function readposition(data){
-position = data.val();
-ball1.x = position.x;
-ball1.y = position.y;
-}
-
-function showerror(){
-console.log("error connecting to the database");
-}
 
 
 
