@@ -6,6 +6,16 @@ var form, player, game;
 var distance = 0;
 var allPlayers;
 var cars, car1, car2, car3, car4;
+var track, car1img, car2img, car3img, car4img;
+
+function preload(){
+car1img = loadImage("images/car1.png");
+car2img = loadImage("images/car2.png");
+car3img = loadImage("images/car3.png");
+car4img = loadImage("images/car4.png");
+
+track = loadImage("images/track.jpg")
+}
 
 function setup(){
     database = firebase.database();
@@ -25,7 +35,13 @@ function draw(){
         game.play();
     }
     
+    if(gameState===2){
+     game.end();
+    }
+
 }
+
+
 
 
 
